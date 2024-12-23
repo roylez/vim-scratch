@@ -8,7 +8,7 @@ It provides the following features:
 - Spelling checking is enabled.
 - The Vim file type of the scratch buffer is set to `markdown.scratch`, enabling markdown syntax highlighting.
 - Whenever the file is saved, using either the `:w` or `ZZ` command, the entire buffer content is copied to the system clipboard, allowing for easy pasting elsewhere.
-- Upon closing the buffer, Vim exits, and the temporary file is deleted.
+- Upon closing the buffer or exiting Vim, the temporary file is deleted.
 
 ### Tips
 
