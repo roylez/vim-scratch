@@ -12,6 +12,8 @@ augroup scratch
   autocmd BufRead,BufNewFile *.scratch setfiletype markdown.scratch
   " do not wrap actual lines
   autocmd BufRead,BufNewFile *.scratch setlocal list spell wrap textwidth=0 wrapmargin=5 noswapfile fo=roqnmB1
+  " no netrw in scratch
+  autocmd BufRead,BufNewFile *.scratch unmap -
   " paste to clipboard when saving.
   autocmd BufWritePost *.scratch if getfsize(expand(@%))>0 | silent :%y+ | endif
   " delete tmp file when exiting
