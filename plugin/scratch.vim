@@ -11,7 +11,7 @@ augroup scratch
   " fallback to markdown file type if all ftdetect fails
   autocmd BufRead,BufNewFile *.scratch setfiletype markdown.scratch
   " do not wrap actual lines
-  autocmd BufRead,BufNewFile *.scratch setlocal list spell wrap textwidth=0 wrapmargin=5 noswapfile fo=roqnmB1
+  autocmd BufRead,BufNewFile *.scratch setlocal list spell wrap textwidth=0 wrapmargin=5 noswapfile fo=roqnmB1 nofixeol
   " no netrw in scratch
   autocmd BufRead,BufNewFile *.scratch unmap -
   " paste to clipboard when saving.
