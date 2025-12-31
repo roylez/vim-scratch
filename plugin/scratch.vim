@@ -26,7 +26,11 @@ endfunction
 
 function! s:scratch_clip(cmd)
   execute ":e " . a:cmd . ' ' . g:scratch_dir . '/' . strftime('%Y%m%d.%H%M%S') . '.scratch'
-  normal "+P
+  " Delay paste until after Vim is fully initialized
+  augroup scratch_clip_delay
+    autocmd!
+    autocmd BufEnter *.scratch call timer_start(10, {-> execute('normal "+P', '')})
+  augroup END
 endfunction
 
 command! -nargs=? Scratch :call <sid>scratch_edit(<q-args>)
