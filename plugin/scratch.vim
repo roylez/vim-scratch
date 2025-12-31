@@ -34,17 +34,19 @@ function! s:scratch_clip(cmd)
     augroup END
   else
     " Detect available clipboard tool
+    let clipboard_content = ''
     if executable('pbpaste')
-      let @@ = system('pbpaste')
+      let clipboard_content = system('pbpaste')
     elseif executable('xclip')
-      let @@ = system('xclip -selection clipboard -o')
+      let clipboard_content = system('xclip -selection clipboard -o')
     elseif executable('xsel')
-      let @@ = system('xsel --clipboard --output')
+      let clipboard_content = system('xsel --clipboard --output')
     else
       echo "No clipboard tool found (need xclip, xsel, or pbpaste)"
       return
     endif
-    normal p
+    " Paste at the beginning of the file
+    call setline(1, clipboard_content)
   endif
 endfunction
 
