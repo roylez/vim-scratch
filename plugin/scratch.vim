@@ -26,11 +26,26 @@ endfunction
 
 function! s:scratch_clip(cmd)
   execute ":e " . a:cmd . ' ' . g:scratch_dir . '/' . strftime('%Y%m%d.%H%M%S') . '.scratch'
-  " Delay paste until after Vim is fully initialized
-  augroup scratch_clip_delay
-    autocmd!
-    autocmd BufEnter *.scratch call timer_start(10, {-> execute('normal "+P', '')})
-  augroup END
+  " Use native clipboard if available, otherwise detect and use clipboard tool
+  if has('clipboard')
+    augroup scratch_clip_delay
+      autocmd!
+      autocmd BufEnter *.scratch call timer_start(10, {-> execute('normal "+P", '')})
+    augroup END
+  else
+    " Detect available clipboard tool
+    if executable('pbpaste')
+      let @@ = system('pbpaste')
+    elseif executable('xclip')
+      let @@ = system('xclip -selection clipboard -o')
+    elseif executable('xsel')
+      let @@ = system('xsel --clipboard --output')
+    else
+      echo "No clipboard tool found (need xclip, xsel, or pbpaste)"
+      return
+    endif
+    normal p
+  endif
 endfunction
 
 command! -nargs=? Scratch :call <sid>scratch_edit(<q-args>)
